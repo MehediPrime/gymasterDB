@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+var cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 
@@ -10,10 +11,11 @@ const db = mongoose.connection;
 db.on("error", (error) => console.log(error));
 db.once("open", () => console.log("Database Connection Success"));
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("GYMASTER API");
+  res.send("GYMASTER API World");
 });
 
 const userRoute = require("./routes/users");
