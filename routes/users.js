@@ -50,19 +50,25 @@ router.post("/login", async (req, res) => {
 //Post User Registration
 router.post("/registration", async (req, res) => {
   const password = encryptPassword(req.body.password);
-  const user = new Users({
-    fname: req.body.fname,
-    lname: req.body.lname,
-    email: req.body.email,
-    password: password,
-    role: "user",
-    token: generateToken(),
-  });
-  try {
-    const userNew = await user.save();
-    res.status(201).json(userNew);
-  } catch (err) {
-    res.status(500).json(err.message);
+  const userCheck = await Users.findOne({ email: req.body.email });
+
+  if (userCheck) {
+    res.status(500).json("Already registered !");
+  } else {
+    const user = new Users({
+      fname: req.body.fname,
+      lname: req.body.lname,
+      email: req.body.email,
+      password: password,
+      role: "user",
+      token: generateToken(),
+    });
+    try {
+      const userNew = await user.save();
+      res.status(201).json(userNew);
+    } catch (err) {
+      res.status(500).json(err.message);
+    }
   }
 });
 

@@ -13,7 +13,7 @@ db.once("open", () => console.log("Database Connection Success"));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("GYMASTER Server");
+  res.send("GYMASTER API");
 });
 
 const userRoute = require("./routes/users");
